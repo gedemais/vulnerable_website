@@ -24,3 +24,12 @@ sudo mysql_secure_installation
 # DB deploy
 bash deploy_mysql.sh
 
+sudo cp -r ../vulnerable_website/* /var/www/html/
+sudo chown -R www-data:www-data /var/www/html/
+sudo chmod -R 755 /var/www/html/
+
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw reload
+
+
