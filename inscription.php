@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$conn = new mysqli('localhost', 'nom_utilisateur', 'mot_de_passe', 'site_web');
+$conn = new mysqli('localhost', 'admin', 'SuperSecurePassword', 'site_web');
 
 // Vérifier la connexion
 if ($conn->connect_error) {
@@ -22,6 +22,18 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
     $photo_path = null;
 }
 
-// Insertion des données dans la base
-$stmt = $conn->prepare("INSERT INTO utilisateurs
+     // Insertion des données dans la base
+     $stmt = $conn->prepare("INSERT INTO utilisateurs (username, password, photo, description) VALUES (?, ?, ?, ?)");
+     $stmt->bind_param("ssss", $username, $password, $photo_path, $description);
+
+     if ($stmt->execute()) {
+         echo "Inscription réussie !";
+     } else {
+         echo "Erreur : " . $stmt->error;
+     }
+
+     // Fermeture de la connexion
+     $stmt->close();
+     $conn->close();
+     ?>
 

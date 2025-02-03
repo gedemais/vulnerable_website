@@ -9,7 +9,7 @@ echo "Déploiement de MySQL en cours..."
 
 # Installation de MySQL/MariaDB si ce n'est pas déjà installé
 if ! command -v mysql &> /dev/null; then
-    echo "🔍 Installation de MariaDB..."
+    echo "Installation de MariaDB..."
     sudo apt update && sudo apt install -y mariadb-server
 else
     echo "MariaDB est déjà installé."
@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS users (
     photo VARCHAR(255),
     description TEXT
 );
+
+GRANT ALL PRIVILEGES ON site_web.* TO 'admin'@'localhost';
 
 FLUSH PRIVILEGES;
 EOF

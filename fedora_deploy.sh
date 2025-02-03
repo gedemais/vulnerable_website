@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Mise à jour et upgrade du système
-sudo apt update
-sudo apt upgrade -y
+sudo dnf update
+sudo dnf upgrade -y
 
 # Installation d'Apache (httpd) et PHP
-sudo apt install -y httpd php php-mysqlnd
+sudo dnf install -y httpd php php-mysqlnd
 
 # Installation de ufw (pare-feu)
-sudo apt install ufw
+sudo dnf install ufw
 
 # Ajout de l'utilisateur www-data (si nécessaire)
 sudo useradd -r -s /usr/sbin/nologin www-data
@@ -20,7 +20,7 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 
 # Installation de MariaDB
-sudo apt install -y mariadb-server
+sudo dnf install -y mariadb-server
 
 # Démarrage du service MariaDB
 sudo systemctl start mariadb
