@@ -2,20 +2,12 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
+    <title>Accueil</title>
 </head>
 <body>
-    <h2>Formulaire d'inscription</h2>
-    <form action="inscription.php" method="post" enctype="multipart/form-data">
-        <label for="username">Nom d'utilisateur :</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <label for="photo">Photo :</label>
-        <input type="file" id="photo" name="photo" accept="image/*"><br><br>
-        <label for="description">Description :</label>
-        <textarea id="description" name="description"></textarea><br><br>
-        <input type="submit" value="S'inscrire">
-    </form>
+    <h2>Bienvenue</h2>
+    <p>Choisissez une action :</p>
+    <a href="inscription.html"><button>S'inscrire</button></a>
+    <a href="login.html"><button>Se connecter</button></a>
 </body>
 </html>
