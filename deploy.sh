@@ -5,7 +5,7 @@ sudo apt update
 sudo apt upgrade -y
 
 # Installation d'Apache (httpd) et PHP
-sudo apt install -y httpd apache2 php-mysql
+sudo apt install -y apache2 php-mysql
 
 # Installation de ufw (pare-feu)
 sudo apt install ufw
