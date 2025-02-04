@@ -15,7 +15,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // Vérifier si l'utilisateur existe
-$stmt = $conn->prepare("SELECT id, password, photo, description FROM utilisateurs WHERE username = ?");
+$stmt = $conn->prepare("SELECT id, password, photo, description FROM users WHERE username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->store_result();
