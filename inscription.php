@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Erreur lors de l'upload du fichier.");
     }
 
+    $target_dir = "uploads/";
+    $photo_path = $target_dir . basename($_FILES["photo"]["name"]);
     // Insertion des données dans la base
     $sql = "INSERT INTO users (username, password, description, photo) VALUES ('$username', '$password', '$description', '$photo_path')";
 
