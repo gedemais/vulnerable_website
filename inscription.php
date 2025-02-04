@@ -1,39 +1,41 @@
 <?php
+session_start();
+
 // Connexion à la base de données
-$conn = new mysqli('localhost', 'admin', 'SuperSecurePassword', 'site_web');
+$conn = new mysqli("localhost", "admin", "SuperSecurePassword", "site_web");
 
-// Vérifier la connexion
+// Vérification de la connexion
 if ($conn->connect_error) {
-    die("Connexion échouée : " . $conn->connect_error);
+    die("Échec de la connexion : " . $conn->connect_error);
 }
 
-// Récupérer les données du formulaire
-$username = $_POST['username'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hachage du mot de passe
-$description = $_POST['description'];
+// Vérification que les données sont bien envoyées
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $conn->real_escape_string($_POST["username"]);
+    $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+    $description = $conn->real_escape_string($_POST["description"]);
 
-// Gestion de l'upload de la photo
-if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
-    $tmp_name = $_FILES['photo']['tmp_name'];
-    $photo_name = basename($_FILES['photo']['name']);
-    move_uploaded_file($tmp_name, "uploads/$photo_name");
-    $photo_path = "uploads/$photo_name";
-} else {
-    $photo_path = null;
+    // Gestion de l'upload de l'image
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["photo"]["name"]);
+
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
+        $photo_path = $target_file;
+    } else {
+        die("Erreur lors de l'upload du fichier.");
+    }
+
+    // Insertion des données dans la base
+    $sql = "INSERT INTO users (username, password, description, photo) VALUES ('$username', '$password', '$description', '$photo_path')";
+
+    if ($conn->query($sql) === TRUE) {
+        header("Location: index.html"); // Redirection après succès
+        exit();
+    } else {
+        die("Erreur lors de l'inscription : " . $conn->error);
+    }
 }
 
-     // Insertion des données dans la base
-     $stmt = $conn->prepare("INSERT INTO utilisateurs (username, password, photo, description) VALUES (?, ?, ?, ?)");
-     $stmt->bind_param("ssss", $username, $password, $photo_path, $description);
-
-     if ($stmt->execute()) {
-         echo "Inscription réussie !";
-     } else {
-         echo "Erreur : " . $stmt->error;
-     }
-
-     // Fermeture de la connexion
-     $stmt->close();
-     $conn->close();
-     ?>
+$conn->close();
+?>
 
