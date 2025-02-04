@@ -36,7 +36,7 @@ bash deploy_mysql.sh
 
 # Copie du site web vulnérable dans le répertoire d'Apache
 sudo cp -r ../vulnerable_website/* /var/www/html/
-mkdir /var/www/html/uploads
+sudo mkdir /var/www/html/uploads
 
 # Modification des droits d'accès pour les fichiers du site
 sudo chown -R www-data:www-data /var/www/html/
