@@ -4,19 +4,17 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.html");
     exit();
 }
-?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Profil de <?php echo $_SESSION['username']; ?></title>
-</head>
-<body>
-    <h2>Bienvenue, <?php echo $_SESSION['username']; ?> !</h2>
-    <p><strong>Description :</strong> <?php echo $_SESSION['description']; ?></p>
-    <p><strong>Photo :</strong></p>
-    <img src="<?php echo $_SESSION['photo']; ?>" alt="Photo de profil" width="200"><br><br>
-    <a href="logout.php"><button>Déconnexion</button></a>
-</body>
-</html>
+// Récupérer les données de l'utilisateur
+$username = $_SESSION['username'];
+$photo = $_SESSION['photo'];
+$description = $_SESSION['description'];
+
+// Charger le contenu HTML et insérer les données dynamiquement
+$html = file_get_contents("profile.html");
+$html = str_replace("{{USERNAME}}", $username, $html);
+$html = str_replace("{{PHOTO}}", $photo, $html);
+$html = str_replace("{{DESCRIPTION}}", $description, $html);
+
+echo $html;
+?>

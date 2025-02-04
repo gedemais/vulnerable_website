@@ -5,7 +5,7 @@ sudo apt update
 sudo apt upgrade -y
 
 # Installation d'Apache (httpd) et PHP
-sudo apt install -y httpd php php-mysqlnd
+sudo apt install -y httpd apache2 php-mysql
 
 # Installation de ufw (pare-feu)
 sudo apt install ufw
@@ -14,10 +14,10 @@ sudo apt install ufw
 sudo useradd -r -s /usr/sbin/nologin www-data
 
 # Démarrage du service httpd (Apache)
-sudo systemctl start httpd
+sudo systemctl start apache2
 
 # Activation du démarrage automatique d'Apache au boot
-sudo systemctl enable httpd
+sudo systemctl enable apache2
 
 # Installation de MariaDB
 sudo apt install -y mariadb-server
@@ -42,6 +42,7 @@ sudo chown -R www-data:www-data /var/www/html/
 sudo chmod -R 755 /var/www/html/
 
 # Ouverture des ports HTTP et HTTPS dans le pare-feu
+sudo ufw up
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw reload
