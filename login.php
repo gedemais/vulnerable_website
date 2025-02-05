@@ -14,22 +14,18 @@ if ($conn->connect_error) {
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-// Vérifier si l'utilisateur existe
-$stmt = $conn->prepare("SELECT id, password, photo, description FROM users WHERE username = ?");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$stmt->store_result();
+// Requête SQL directement construite avec les entrées utilisateur
+$sql = "SELECT id, password, photo, description FROM users WHERE username = '$username'";
+$result = $conn->query($sql);
 
-if ($stmt->num_rows > 0) {
-    $stmt->bind_result($id, $hashed_password, $photo, $description);
-    $stmt->fetch();
-
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    
     // Vérifier le mot de passe
-    if (password_verify($password, $hashed_password)) {
-        // Stocker les infos en session et rediriger vers la page de profil
+    if ($password === $row['password']) { //  Comparaison directe vulnérable
         $_SESSION['username'] = $username;
-        $_SESSION['photo'] = $photo;
-        $_SESSION['description'] = $description;
+        $_SESSION['photo'] = $row['photo'];
+        $_SESSION['description'] = $row['description'];
         header("Location: profile.php");
         exit();
     } else {
@@ -39,6 +35,5 @@ if ($stmt->num_rows > 0) {
     echo "Utilisateur introuvable.";
 }
 
-$stmt->close();
 $conn->close();
 ?>
